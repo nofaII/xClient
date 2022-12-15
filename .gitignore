@@ -1,0 +1,9 @@
+/Client/node_modules/
+/Client/public/build/
+/Client/obj
+/.vs/
+/obj/
+/bin/
+/Api/.vs/
+/Api/bin/
+/Api/obj/
