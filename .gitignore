@@ -1,6 +1,7 @@
 /Client/node_modules/
 /Client/public/build/
 /Client/obj
+/Client/.vs
 /.vs/
 /obj/
 /bin/
