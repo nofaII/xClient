@@ -25,7 +25,7 @@
 		}, 500)
 	})
 
-	function submit() {
+	async function submit() {
 		if (signIn) {
 			if (loginUserName === '') {
 				ShowModalWindow('Empty field', 'Please type the username')
@@ -35,6 +35,19 @@
 				ShowModalWindow('Empty field', 'Please type the password')
 				return;
 			}
+
+			let data = {
+				username: loginPassword,
+				password: loginPassword
+			}
+
+			const response = await fetch('api/account/signin', {
+				method: 'POST',
+				body: JSON.stringify(data),
+				headers: {
+				  'Content-Type': 'application/json'
+				},
+			});
 		}
 		else {
 			if (registrationUsername === '') {
@@ -57,6 +70,20 @@
 				ShowModalWindow('Invalid password field value', 'The passwords must be the same')
 				return;
 			}
+
+			let data = {
+				username: registrationUsername,
+				password: registrationFirstPassword,
+				email: registrationEmail
+			}
+
+			const response = await fetch('api/account/signup', {
+				method: 'POST',
+				body: JSON.stringify(data),
+				headers: {
+				  'Content-Type': 'application/json'
+				},
+			});
 		}
 	}
 
@@ -78,8 +105,7 @@
 	}
 </script>
 
-<main>
-
+<div class="main">
 	<div class="container">
 		<div class="left-side">
 			<div class="left-side-container">
@@ -105,13 +131,13 @@
 		</div>
 		<div class="right-side">
 			{#if inited}
-			<div class="right-side-container">
-				<img transition:fade="{{duration: 1500}}" class="parallax" src="mascot.svg"/>
-				<div transition:fade="{{deladuration: 1500, delay: 500}}">
-					<Headline>xClient</Headline>
-					<Label small>Multiple connections in one place</Label>	
-				</div>	
-			</div>
+				<div class="right-side-container">
+					<img transition:fade="{{duration: 1500}}" class="parallax" src="mascot.svg"/>
+					<div transition:fade="{{deladuration: 1500, delay: 500}}">
+						<Headline>xClient</Headline>
+						<Label small>Multiple connections in one place</Label>	
+					</div>	
+				</div>
 			{/if}
 		</div>
 	</div>
@@ -120,14 +146,9 @@
 		  {messageOfModalWindow}
 		</Dialog>
 	</Modal>
-</main>
+</div>
 
 <style>
-    main {
-		padding: 20px;
-		background: linear-gradient(45deg, #4300B0, #F0F8FF);
-	}
-
 	form {
 		display: grid;
 		gap: 20px;
@@ -139,6 +160,11 @@
 
 	p {
 		font-size: 20px;
+	}
+
+    .main {
+		padding: 20px;
+		background: linear-gradient(45deg, #4300B0, #F0F8FF);
 	}
 
 	.container {
@@ -180,5 +206,15 @@
 		display: grid;
 		grid-template-columns: 45% 45%;
 		grid-column-gap: 10%;
+	}
+
+	@media (max-width: 768px) {
+		.right-side {
+			display: none;
+		}
+
+		.container {
+			grid-template-columns: auto;
+		}
 	}
 </style>
